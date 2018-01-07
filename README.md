@@ -10,12 +10,9 @@ The basic process is
 
 ## Local Development
 
-Before you start, you'll need to create an S3 bucket and provide credentials in your development environment.
-I used a `.env` file. There's a sample .env file located at the root directory of this project, in case you
-want an example.
+Before you start, you'll need to create an S3 bucket and provide credentials in your development environment. I used a `.env` file. There's a sample `.env` file located at the root directory of this project, in case you want an example.
 
-For directions on CORS config, feel free to consult the toturial mentioned in the
-Contributors section of this README.
+The S3 bucket you use must have a properly configured CORS setup to allow direct uploads. Follow the [S3 section in the Heroku tutorial](https://devcenter.heroku.com/articles/s3-upload-python#s3-setup) to make sure your bucket is properly configured.
 
 This project uses pipenv to manage depdendencies.  Run he following commands.
 
@@ -27,22 +24,17 @@ pipenv shell # activate the project's virtualenv
 Once you have the dependencies installed, run the following command in terminal:
 
 ```
-$ export FLASK_APP=app.py
-$ flask run
+$ FLASK_APP=app.py flask run
 ```
 
-In your browser, nagivate to `localhost:5000/` to see the site.
+In your browser, nagivate to [http://localhost:5000/](http://localhost:5000/) to see the site.
 
 
-## Contributors
+## More Links
 
-This codebase was begun by cobbling together info from the [Flask Quickstart Guide](http://flask.pocoo.org/docs/0.12/quickstart/)
-and this [S3 direct upload tutorial](https://devcenter.heroku.com/articles/s3-upload-python).
-
-In other words, if you're reading this, then you probably know more about Python and Flask best practices than I do.
-So feel free to modify, remove, or add any code you feel is necessary.
+This codebase was begun by cobbling together info from the [Flask Quickstart Guide](http://flask.pocoo.org/docs/0.12/quickstart/) and this [S3 direct upload tutorial](https://devcenter.heroku.com/articles/s3-upload-python).
 
 ## ToDo
+
 1. Integrate Reckognition and stachification code into Flask app.
 2. Layer in some CSS to provide a better UX
-
