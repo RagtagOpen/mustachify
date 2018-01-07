@@ -11,6 +11,7 @@ name = "pypi"
 requests = "*"
 pillow = "*"
 flask = "*"
+python-dotenv = "*"
 
 
 [dev-packages]
