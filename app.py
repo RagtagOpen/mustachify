@@ -6,31 +6,29 @@ import os
 import posixpath
 import requests
 import uuid
-from flask import Flask, jsonify, render_template, request, redirect, url_for
+from flask import Flask, flash, jsonify, render_template, request, redirect, url_for
 from PIL import Image, ImageDraw
-
-app = Flask(__name__)
 
 
 def generate_random_id():
     return base64.urlsafe_b64encode(uuid.uuid4().bytes).decode('utf8').rstrip('=')
 
+app = Flask(__name__)
+app.config['SECRET_KEY'] = generate_random_id()
 
-def remove_transparency(im, bg_colour=(255, 255, 255)):
+
+def remove_transparency(im, bg_color=(255, 255, 255)):
 
     # Only process if image has transparency (http://stackoverflow.com/a/1963146)
-    if im.mode in ('RGBA', 'LA') or (im.mode == 'P' and 'transparency' in im.info):
+    if im.mode == 'P' and 'transparency' in im.info:
+        im = im.convert('RGBA')
 
-        # Need to convert to RGBA if LA format due to a bug in PIL (http://stackoverflow.com/a/1963146)
-        alpha = im.convert('RGBA').split()[-1]
+    if im.mode in ('RGBA', 'LA'):
+        bg = Image.new('RGBA', im.size, (255, 255, 255, 255))
+        im = im.convert('RGBA')
+        composite = Image.alpha_composite(bg, im).convert('RGB')
 
-        # Create a new background image of our matt color.
-        # Must be RGBA because paste requires both images have the same format
-        # (http://stackoverflow.com/a/8720632  and  http://stackoverflow.com/a/9459208)
-        bg = Image.new("RGBA", im.size, bg_colour + (255,))
-        bg.paste(im, mask=alpha)
-        return bg
-
+        return composite
     else:
         return im
 
@@ -78,7 +76,7 @@ def apply_mustache(s3_bucket, original_image_url):
     # Save the result as a JPEG in memory
     buf = io.BytesIO()
     im = remove_transparency(im)
-    im.save(buf, 'JPEG')
+    im.save(buf, 'JPEG', quality=80)
     buf.seek(0)
 
     # Put that image on S3
