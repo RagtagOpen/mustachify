@@ -9,7 +9,7 @@
 
     <input type="file" id="file-input">
     <p id="status">Please select a file</p>
-    <img style="border:1px solid gray;width:300px;" id="preview" src="/static/media/default.png">
+    <img style="border:1px solid gray;width:300px;" id="preview" src="{{ mustachioed_url }}">
 
     <form method="POST" action="{{ url_for('submit_form') }}">
       <input type="hidden" id="avatar-url" name="avatar-url" value="/static/media/default.png">
