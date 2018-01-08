@@ -1,10 +1,13 @@
 import base64
 import boto3
+import io
 import json
 import os
 import posixpath
+import requests
 import uuid
 from flask import Flask, jsonify, render_template, request, redirect, url_for
+from PIL import Image, ImageDraw
 
 app = Flask(__name__)
 
@@ -13,11 +16,62 @@ def generate_random_id():
     return base64.urlsafe_b64encode(uuid.uuid4().bytes).decode('utf8').rstrip('=')
 
 
-def mustachify(original_image_url):
-    # Do the mustache dance
+class NoFacesFoundException(Exception):
+    pass
 
-    # Put the result on S3
+
+def apply_mustache(s3_bucket, original_image_url):
+    # Load the image into memory
+    buf = io.BytesIO(requests.get(original_image_url).content)
+
+    # Send it to Rekognition
+    rekognition = boto3.client("rekognition", 'us-east-1')
+    response = rekognition.detect_faces(
+        Image={
+            'Bytes': buf.getvalue()
+        }
+    )
+
+    if not response['FaceDetails']:
+        raise NoFacesFoundException()
+
+    im = Image.open(buf)
+    for face in response['FaceDetails']:
+        if face['Confidence'] < 0.9:
+            # Only work on things we're really sure are faces
+            continue
+
+        landmarks = dict([
+            (l['Type'], (int(l['X'] * im.size[0]), int(l['Y'] * im.size[1])))
+            for l in face.get('Landmarks')
+        ])
+
+        mustache_im = Image.open('mustache_test.png')
+
+        nose_x, nose_y = landmarks['nose']
+        mleft_x, mleft_y = landmarks['mouthLeft']
+        mright_x, mright_y = landmarks['mouthRight']
+        new_mustache_size = (mright_x - mleft_x, mleft_y - nose_y)
+
+        mustache_im = mustache_im.resize(new_mustache_size)
+        im.paste(mustache_im, (mleft_x, mleft_y - new_mustache_size[1]), mustache_im)
+
+    # Save the result as a JPEG in memory
+    buf = io.BytesIO()
+    im.save(buf, 'JPEG')
+    buf.seek(0)
+
+    # Put that image on S3
+    s3 = boto3.client("s3", 'us-east-1')
     result_id = generate_random_id()
+    result_key = posixpath.join('result', result_id)
+    s3.upload_fileobj(
+        buf, s3_bucket, result_key,
+        ExtraArgs={
+            'ContentType': 'image/jpeg',
+            'ACL': 'public-read',
+        }
+    )
 
     # Return an ID for the mustachioed image
     return result_id
@@ -38,7 +92,11 @@ def submit_form():
     avatar_url = request.form["avatar-url"]
 
     # Mustachify the image
-    result_id = mustachify(avatar_url)
+    try:
+        result_id = apply_mustache(os.environ.get('S3_BUCKET'), avatar_url)
+    except NoFacesFoundException:
+        flash("Oh no! I couldn't find any faces on your picture. Please try again with a clearer picture.")
+        return redirect(url_for('index'))
 
     # And show them the mustachioed image
     return redirect(url_for('show_result', result_id=result_id))
