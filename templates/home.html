@@ -7,6 +7,16 @@
 
     <h2>Your avatar</h2>
 
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class=flashes>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
     <input type="file" id="file-input">
     <p id="status">Please select a file</p>
     <img style="border:1px solid gray;width:300px;" id="preview" src="{{ mustachioed_url }}">
