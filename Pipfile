@@ -12,6 +12,7 @@ requests = "*"
 pillow = "*"
 flask = "*"
 python-dotenv = "*"
+gunicorn = "*"
 
 
 [dev-packages]
