@@ -6,14 +6,31 @@ import os
 import posixpath
 import requests
 import uuid
-from flask import Flask, jsonify, render_template, request, redirect, url_for
+from flask import Flask, flash, jsonify, render_template, request, redirect, url_for
 from PIL import Image, ImageDraw
-
-app = Flask(__name__)
 
 
 def generate_random_id():
     return base64.urlsafe_b64encode(uuid.uuid4().bytes).decode('utf8').rstrip('=')
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = generate_random_id()
+
+
+def remove_transparency(im, bg_color=(255, 255, 255)):
+
+    # Only process if image has transparency (http://stackoverflow.com/a/1963146)
+    if im.mode == 'P' and 'transparency' in im.info:
+        im = im.convert('RGBA')
+
+    if im.mode in ('RGBA', 'LA'):
+        bg = Image.new('RGBA', im.size, (255, 255, 255, 255))
+        im = im.convert('RGBA')
+        composite = Image.alpha_composite(bg, im).convert('RGB')
+
+        return composite
+    else:
+        return im
 
 
 class NoFacesFoundException(Exception):
@@ -58,7 +75,8 @@ def apply_mustache(s3_bucket, original_image_url):
 
     # Save the result as a JPEG in memory
     buf = io.BytesIO()
-    im.save(buf, 'JPEG')
+    im = remove_transparency(im)
+    im.save(buf, 'JPEG', quality=80)
     buf.seek(0)
 
     # Put that image on S3
