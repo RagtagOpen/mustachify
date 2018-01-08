@@ -10,6 +10,8 @@ name = "pypi"
 "boto3" = "*"
 requests = "*"
 pillow = "*"
+flask = "*"
+python-dotenv = "*"
 
 
 [dev-packages]
