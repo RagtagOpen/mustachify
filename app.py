@@ -128,8 +128,8 @@ def scale_rotate_translate(image, angle, center=None, new_center=None, scale=Non
 
 MUSTACHES = {
     'mustache_test.png': {
-        'center': (89, 48),
-        'mouth_starts_at': 17
+        'center': (1039, 802),
+        'mouth_starts_at': 18
     }
 }
 
@@ -163,6 +163,10 @@ def mustachify(original_image_buf):
             (nose_x - mcenter_x) ** 2 +
             (nose_y - mcenter_y) ** 2
         )
+        desired_mouth_width = math.sqrt(
+            (mright_x - mleft_x) ** 2 +
+            (mright_y - mleft_y) ** 2
+        )
 
         mustache_image_name, mustache_params = random.choice(list(MUSTACHES.items()))
         # Make an image to move the mustache around in because affine transform doesn't expand for you
@@ -173,7 +177,8 @@ def mustachify(original_image_buf):
 
         mustache_upper_lip_height = (mustache_im.size[1] - mustache_params['mouth_starts_at'])
 
-        scale = desired_upper_lip_height / mustache_upper_lip_height
+        height_scale = desired_upper_lip_height / mustache_upper_lip_height
+        width_scale = desired_mouth_width / mustache_im.size[0]
 
         alpha = math.degrees(
             math.atan2(
@@ -194,7 +199,7 @@ def mustachify(original_image_buf):
             rotation,
             mustache_params['center'],
             (mcenter_x, mcenter_y),
-            (scale, scale),
+            (width_scale, height_scale),
         )
 
         # mustache_im = mustache_im.resize(new_mustache_size)
