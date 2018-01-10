@@ -146,6 +146,10 @@ def mustachify(original_image_buf):
             # Only work on things we're really sure are faces
             continue
 
+        if abs(face['Pose']['Yaw']) > 30:
+            # Only work on faces that are looking at the camera
+            continue
+
         landmarks = dict([
             (l['Type'], (l['X'] * im.size[0], l['Y'] * im.size[1]))
             for l in face.get('Landmarks')
