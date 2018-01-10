@@ -22,6 +22,12 @@ def generate_random_id():
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = generate_random_id()
+app.config['ALLOWED_EXTENSIONS'] = set(['png', 'jpg', 'jpeg', 'gif'])
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in app.config.get('ALLOWED_EXTENSIONS')
 
 
 def remove_transparency(im, bg_color=(255, 255, 255)):
@@ -44,9 +50,11 @@ class NoFacesFoundException(Exception):
     pass
 
 
-def apply_mustache(s3_bucket, original_image_url):
+def apply_mustache(s3_bucket, image_data):
     # Load the image into memory
-    original_buf = io.BytesIO(requests.get(original_image_url).content)
+    image_data.stream.seek(0)
+    original_buf = io.BytesIO(image_data.read())
+    original_buf.seek(0)
 
     mustachioed_buf = mustachify(original_buf)
 
@@ -222,19 +230,24 @@ def mustachify(original_image_buf):
 def index():
     return render_template(
         'home.html',
-        mustachioed_url="/static/media/default.png",
     )
 
 
 @app.route('/result/new', methods=["POST"])
 def submit_form():
+    file = request.files.get("original")
 
-    # Collect the data posted from the HTML form
-    avatar_url = request.form["avatar-url"]
+    if not file or file.filename == '':
+        flash("Make sure you select a file to mustachify")
+        return redirect(url_for('index'))
+
+    if allowed_file(file):
+        flash("We can't add a mustache to a file like that")
+        return redirect(url_for('index'))
 
     # Mustachify the image
     try:
-        result_id = apply_mustache(os.environ.get('S3_BUCKET'), avatar_url)
+        result_id = apply_mustache(os.environ.get('S3_BUCKET'), file)
     except NoFacesFoundException:
         flash("Oh no! I couldn't find any faces on your picture. Please try again with a clearer picture.")
         return redirect(url_for('index'))
@@ -254,37 +267,6 @@ def show_result(result_id):
             result_id
         ),
     )
-
-
-@app.route('/sign-s3')
-def sign_s3():
-    s3_bucket = os.environ.get('S3_BUCKET')
-    file_type = request.args.get('file-type')
-    result_id = generate_random_id()
-    original_key = posixpath.join('original', result_id)
-
-    s3 = boto3.client('s3')
-
-    presigned_post = s3.generate_presigned_post(
-        Bucket=s3_bucket,
-        Key=original_key,
-        Fields={
-            "acl": "public-read",
-            "Content-Type": file_type
-        },
-        Conditions=[
-            {"acl": "public-read"},
-            {"key": original_key},
-            {"Content-Type": file_type},
-            ["content-length-range", 1024, 5242880], # 1KB to 5MB
-        ],
-        ExpiresIn=1200
-    )
-
-    return jsonify({
-        'data': presigned_post,
-        'url': posixpath.join('https://s3.amazonaws.com/', s3_bucket, original_key),
-    })
 
 
 if __name__ == '__main__':
