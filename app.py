@@ -207,7 +207,7 @@ def mustachify(original_image_buf):
         )
 
         mustache_overlay = scale_rotate_translate(
-            mustache_overlay,
+            mustache_im,
             rotation,
             mustache_params['center'],
             (mcenter_x, mcenter_y),
