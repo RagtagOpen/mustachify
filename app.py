@@ -200,11 +200,13 @@ def mustachify(original_image_buf):
         )
         rotation = alpha * -1.0
 
+        """
         mustache_im = mustache_im.rotate(
             rotation,
             expand=True,
             center=mustache_params['center']
         )
+        """
 
         mustache_overlay = scale_rotate_translate(
             mustache_im,
