@@ -7,12 +7,10 @@ import json
 import math
 import os
 import posixpath
-import pprint
 import random
-import requests
 import shutil
 import uuid
-from flask import Flask, flash, jsonify, render_template, request, redirect, url_for
+from flask import Flask, flash, render_template, request, redirect, url_for
 from PIL import Image
 
 
