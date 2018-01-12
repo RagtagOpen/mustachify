@@ -179,11 +179,20 @@ def mustachify(original_image_buf):
         )
 
         mustache_image_name, mustache_params = random.choice(list(MUSTACHES.items()))
-        # Make an image to move the mustache around in because affine transform doesn't expand for you
-        mustache_overlay = Image.new('RGBA', im.size)
+
+        # If the mustache is smaller than the original image, make an image to
+        # move the mustache around in because affine transform doesn't
+        # expand for you
         mustache_im = Image.open(mustache_image_name)
-        # Put the mustache image in the overlay
-        mustache_overlay.paste(mustache_im, mustache_im)
+        if mustache_im.size[0] < im.size[0] or mustache_im.size[1] < im.size[1]:
+            mustache_overlay = Image.new('RGBA', im.size)
+            # Put the mustache image in the overlay
+            mustache_overlay.paste(mustache_im, mustache_im)
+        else:
+            # But if the mustache image is already bigger than the image
+            # we'll have room to do the scale/rotate/translate, so no need
+            # to create the overaly.
+            mustache_overlay = mustache_im
 
         mustache_upper_lip_height = (mustache_im.size[1] - mustache_params['mouth_starts_at'])
 
@@ -198,23 +207,14 @@ def mustachify(original_image_buf):
         )
         rotation = alpha * -1.0
 
-        """
-        mustache_im = mustache_im.rotate(
-            rotation,
-            expand=True,
-            center=mustache_params['center']
-        )
-        """
-
         mustache_overlay = scale_rotate_translate(
-            mustache_im,
+            mustache_overlay,
             rotation,
             mustache_params['center'],
             (mcenter_x, mcenter_y),
             (width_scale, height_scale),
         )
 
-        # mustache_im = mustache_im.resize(new_mustache_size)
         im.paste(mustache_overlay, (0, 0), mustache_overlay)
 
     # Save the result as a JPEG in memory
