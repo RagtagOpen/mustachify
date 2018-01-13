@@ -1,0 +1,729 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700');
+
+body {
+	font: 400 18px/1.65em "Open Sans", Times, serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+.btn {
+	font-family: "Open Sans", sans-serif;
+	font-weight: 700;
+  -webkit-font-smoothing: antialiased;
+}
+
+h5,
+h6 {
+	font-family: "Open Sans", Times, serif;
+	font-weight: 700;
+}
+
+a {
+  color: #30a7e9;
+  transition: all 0.3s ease-in-out;
+}
+
+/* ------- Header ------- */
+
+#header {
+	text-align: center;
+	padding: 0;
+}
+
+#header h1 {
+	text-indent: -99999px;
+	width: 100%;
+	height: 100px;
+	background: transparent url('https://s.bsd.net/bryce/main/page/-/img/footer-logo.png') no-repeat 50% 50%;
+	background-size: 300px auto;
+	margin: 0;
+}
+
+/* ------- Footer ------- */
+
+.copyright-terms {
+  font-family: "Open Sans", Times, serif;
+  padding: 1.5em 0;
+}
+
+.copyright-terms p,
+.copyright-terms small,
+.terms-privacy a {
+	font-size: 14px;
+	font-weight: 400;
+	color: #9da8ae;
+}
+
+.terms-privacy a:hover,
+.terms-privacy a:focus {
+	color: #2358ca;
+}
+
+.terms-privacy {
+  text-align: right;
+}
+
+.copyright-terms small, 
+.terms-privacy li {
+	display: inline-block;
+}
+
+.terms-privacy li:not(:nth-last-child(1)) {
+	margin-right: 21px;
+}
+
+.modal .modal-dialog {
+  margin: 70px auto;
+}
+
+.modal button.close {
+  position: absolute;
+  top: -33px;
+  right: 15px;
+  font-size: 30px;
+  color: #fff;
+  opacity: .9;
+  text-shadow: none;
+  transition: all 0.3s ease-in-out;
+  font-weight: 800;
+}
+
+.modal-body p,
+.modal-body li,
+.modal-body a {
+	font-weight: 400;
+  color: #848e92;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* ------- Buttons ------- */
+
+.btn {
+  text-transform: uppercase;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+  border-radius: 0;
+
+  font-size: 18px;
+}
+
+.btn-lg {
+  font-size: 24px;
+}
+
+.btn-sm {
+  font-size: 16px;
+}
+
+.btn-xs {
+  font-size: 14px;
+}
+
+#event-form .btn {
+  font-size: 21px;
+}
+
+.btn-default {
+  background-color: #2358ca;
+  border-color: #2358ca;
+  color: #fff;
+}
+
+.btn-default:hover,
+.btn-default:focus {
+  background-color: #3368da;
+  border-color: #3368da;
+  color: #fff;
+}
+
+.btn-facebook {
+  background: #3b5998;
+  border-color: #324a80;
+  color: #fff!important;
+  text-shadow: none;
+}
+
+.btn-facebook:hover {
+  background: #5774b3;
+  border-color: #3b5998;
+  color: #fff!important;
+  text-shadow: none;
+}
+
+.btn-twitter {
+  background: #4099FF;
+  border-color: #398ae5;
+  color: #fff!important;
+  text-shadow: none;
+}
+
+.btn-twitter:hover {
+  background: #66adff;
+  border-color: #4099FF;
+  color: #fff!important;
+  text-shadow: none;
+}
+
+/* ------- Misc ------- */
+
+img.alignleft,
+img.alignright,
+img.aligncenter {
+  clear: both;
+  display: block;
+  margin: 10px auto;
+}
+
+@media (min-width: 768px) {
+  img.alignleft {
+    display: inline;
+    float: left;
+    margin: 0 15px 10px 0;
+  }
+  img.alignright {
+    display: inline;
+    float: right;
+    margin: 0 0 10px 15px;
+  }
+}
+
+.form-control {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+  border-radius: 0;
+}
+
+.embed-responsive .embed-responsive-item,
+.embed-responsive embed,
+.embed-responsive iframe,
+.embed-responsive object,
+.embed-responsive video {
+  background-color: #39393b;
+}
+
+@media(min-width: 768px){
+  .nav>li.social>a {
+    font-size: 0px !important;
+    padding-bottom: 8px;
+    font-weight: 400;
+  }
+
+  .social a:before {
+    font-family: FontAwesome;
+    font-size: 20px;
+    display: inline-block;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .social.facebook>a:hover,
+  .social.facebook>a:focus {
+    background: #3b5998;
+    color: #fff;
+  }
+
+  .social.twitter>a:hover,
+  .social.twitter>a:focus {
+    background: #4099FF;
+    color: #fff;
+  }
+
+  .facebook a:before {
+    content: '\f09a';
+  }
+
+  .twitter a:before {
+    content: '\f099';
+  }
+
+  .youtube a:before {
+    content: '\f16a';
+  }
+
+  .instagram a:before {
+    content: '\f16d';
+  }
+}
+
+/* --------------     --------------
+	 -------------- BSD --------------
+	 --------------			-------------- */
+	 						 
+@media (max-width: 767px) {	
+  .bsd.bgimage .content {
+    background: #fff;
+    width: 100%;
+    max-width: 480px;
+    padding: 10px 20px;
+    margin: 0 auto;
+  }
+	
+	#signup .checkbox,
+	#signup .radiobutton,
+	#signup .label,
+	#signup .text,
+	#signup .form-control {
+		margin: 0!important;
+		max-width: 100%!important;
+	}
+	
+	#footer-logo {
+		margin-top: 25px;
+	}
+}
+
+@media (max-width: 480px) {
+  
+  .bsd #main,
+  .bsd.bgimage #main {
+    background-color: #fafafa;
+    background-image: none!important;
+  }
+
+}
+
+.bsd #main {
+	color: #323239;
+  background: #fff;
+  background-position: center center;
+  background-repeat: no-repeat;
+   -moz-background-size: cover;
+   -o-background-size: cover;
+   -webkit-background-size: cover;
+  background-size: cover;
+  padding: 0 0 25px 0;
+}
+@media (min-width: 768px) {
+	.bsd #main {
+		padding: 25px 0 50px 0;
+	}
+}
+
+.bsd #signupheader {
+	width: 100%;
+	display: block;
+  float: none;
+  margin-right: 0%;
+}
+
+.bsd #signupheader>h1,
+.bsd #signupheader>h2 {
+	margin-top: 0;
+}
+
+.bsd #signup {
+	width: 100%;
+	max-width: 400px;
+	display: block;
+	float: none;
+  margin-top: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+.bsd.fullwidth #signup {
+  max-width: none;
+}
+
+.bsd.bgimage #signup {
+  margin-top: -30px;
+}
+
+.bsd.bgimage .content {
+  background: #fdfdfd;
+  width: 100%;
+  max-width: 480px;
+  padding: 20px;
+  margin: 25px auto;
+}
+
+@media (min-width: 768px) {
+  .bsd.bgimage .content {
+    margin: 50px auto;
+  }
+}  
+
+@media (min-width: 768px) {
+  .bsd.bgimage.form-left .content {
+    margin: 50px auto 50px 0;
+  }
+  .bsd.bgimage.form-right .content {
+    margin: 50px 0 50px auto;
+  }
+}
+
+.bsd #signupheader img {
+  margin-bottom: 15px;
+}
+
+.bsd #signup {
+  margin-top: 15px;
+}
+
+.bsd.fullwidth #signup,
+.bsd.fullwidth #signupheader {
+  width: 100%;
+  max-width: 800px;
+  float: none;
+  background: none;
+  border: none;
+  margin: 0 auto;
+}
+
+.bsd.fullwidth table {
+  width: 100%;
+  max-width: 1200px!important;
+}
+
+@media (min-width: 768px) {
+	
+	.bsd.standard #signupheader {
+		width: 58.5%;
+	  float: left;
+	  margin-right: 1.5%;
+	}
+
+	.bsd.standard #signup {
+		width: 40%;
+		max-width: 400px;
+		padding: 7px 15px;
+		background: #fafafa;
+		border: 1px solid #dadada;
+		float: right;
+	  margin-top: 0;
+	  margin-bottom: 25px;
+	}
+
+}
+
+.bsd #signupfooter {
+	clear: both;
+	display: block;
+}
+
+.bsd #signup .label {
+	margin-left: 0!important;
+	padding-left: 0!important;
+	white-space: normal!important;
+	text-align: left;
+	line-height: 1.5;
+}
+
+.bsd #signup .form-control {
+	max-width: 100%;
+	white-space: normal;
+}
+
+.bsd #signup textarea.form-control {
+	margin-bottom: 20px;
+}
+
+.bsd #signup .label label {
+	color: #000;
+	font-size: 16px;
+	font-family: "Open Sans", sans-serif;
+	white-space: normal!important;
+}
+
+.bsd #bsd-field-zip {
+	max-width: 150px;
+}
+
+.bsd #bsd-field-submit-btn>.label {
+	display: none;
+}
+
+.bsd #bsd-field-submit-btn>.input {
+	margin-top: 5px;
+}
+
+.bsd #signup .submit {
+	margin-top: 5px;
+}
+
+.bsd .btn {
+	-webkit-font-smoothing: antialiased;
+}
+
+.bsd .checkbox,
+.bsd .radio,
+.bsd #signup .input label {
+	display: inline;
+}
+
+/* ------- Events ------- */
+
+#SKIN #eventsearch #event_map {
+	display: none !important;
+}
+
+#SKIN #account_actions #login_status {
+	display: block;
+	text-align: left;
+}
+@media (min-width: 768px) {
+	#SKIN #account_actions #login_status {
+		text-align: right;
+	 }
+}
+
+#SKIN #account_actions #login_status .delimiter {
+	display: none;
+}
+
+#SKIN #eventcreate .firstform tr {
+	margin-bottom: 15px;
+}
+
+#SKIN #eventcreate .firstform th {
+	width: 45%;
+	padding: 0;
+	text-align: right;
+}
+
+#SKIN #eventcreate .firstform th:first-of-type {
+	margin-right: 5%;
+}
+
+input[name="venue_zip"].form-control {
+	max-width: 150px;
+	margin-bottom: 15px;
+}
+
+.bsd-event select[multiple],
+.bsd-event select[size] {
+	height: 34px;
+}
+
+.label {
+	font-size: 100%;
+	padding: 0 !important;
+}
+
+.bsd-when .form-control {
+	max-width: 48%;
+	margin-right: 1%;
+	float: left;
+	margin-bottom: 10px;
+}
+
+@media (min-width: 768px) {
+	.bsd-when .form-control {
+		max-width: 125px;
+		margin-right: 5px;
+	}	
+}
+
+.bsd-when select.form-control[name="start_tz"] {
+	max-width: 250px;
+	margin: 0 0 10px 0;
+}
+
+.bsd-event input[type="checkbox"],
+.bsd-event input[type="radio"] {
+	margin-right: 4px;
+}
+
+@media (max-width: 767px) {
+	.bsd-event#SKIN #eventcreate td {
+		width: 100% !important;
+		display: block !important;
+		text-align: left !important;
+	}
+	
+	#SKIN .form_label {
+		font-size: 14px !important;
+	}
+	
+	#cke_description {
+		width: 100% !important;
+		max-width: 100% !important;
+		margin: 0 !important;
+		padding: 0 !important;
+	}
+	
+	#cke_description td {
+		margin: 0 !important;
+		padding: 0 !important;
+	}
+}
+
+.cke_skin_bsd .cke_wrapper {
+	background: transparent !important;
+}
+
+#cke_description * {
+	white-space: normal !important;
+}
+
+span.cke_skin_bsd {
+		-webkit-border-radius: 0 !important;
+		-moz-border-radius: 0 !important;
+	border-radius: 0 !important;
+	padding: 0 !important;
+}
+
+#SKIN .form_label {
+	word-wrap: normal !important;
+	white-space: normal !important;
+	margin-top: 12px;
+	margin-right: 6px;
+	padding: 0 !important;
+	text-align: left !important;
+}
+
+table#use_reminder_email {
+	margin-left: 0 !important;
+}
+
+/* --- Donation Pages --- */
+
+#contribution {
+	display: block;
+	margin: 0 auto;
+  width: 100%;
+  max-width: 400px;
+	padding: 7px 15px;
+	background: #fafafa;
+	border: 1px solid #dadada;
+}
+
+#bsd-contribution-header-contributor {
+	display: none;
+}
+
+/* Layout */
+@media (min-width: 992px) {
+	.bsd-contribForm-oneCol .bsd-contribForm-aboveContent {
+	  float:left!important;
+	  width: 56%!important;
+	}
+
+	.bsd-contribForm-oneCol form#contribution {
+	  float:right;
+	  width: 40%;
+	}
+}
+
+.bsd-contribForm-oneCol .bsd-contribForm-belowContent {
+	clear: both;
+	padding: 25px 0;
+}
+
+#contribution table.amounts td {
+	vertical-align: top !important;
+}
+
+#credit_card-creditCardTypeSelector {
+  position: relative;
+  top: -20px;
+  margin-bottom: -20px;
+}
+
+ul#credit_card-creditCardTypeRadioList {
+	width: 250px!important;
+}
+
+input#credit_card-creditCardNumberTextBox {
+	position: relative;
+	top: 5px;
+	left: 0;
+}
+
+.legal_confirm_checkbox {
+	float: left;
+  width: 13px;
+  top: 6px;
+}
+
+#contribution label[for="legal_confirm"] {
+  float: left;
+  width: calc(100% - 30px);
+  font-size: 14px;
+}
+
+#contribution label[for="legal_confirm"] ol>li {
+	margin-bottom: 12px;
+  font-size: 12px;
+  line-height: 1.75;
+}
+
+/* ------- Events Search Results Page ------- */
+
+#event_results .datebox {
+	width: auto !important;
+	padding: 4px 6px !important;
+}
+
+#event_results .event h3.title {
+	margin: 0 0 4px 0 !important;
+}
+
+#event_results .event h3.title a {
+	font-size: 28px !important;
+	font-weight: 400 !important;
+}
+
+#event_results .event_footer .links .detail_button a {
+	background-color: #641f5f !important;
+	border-color: #641f5f !important;
+  color: #fff !important;
+}
+
+#event_results .event_footer .links .detail_button a:hover,
+#event_results .event_footer .links .detail_button a:focus {
+	text-decoration: none;
+  color: #fff !important;
+  background-color: #843f7f !important;
+  border-color: #843f7f !important;
+}
+
+#event_results .event_footer .links .rsvp_button a {
+	background-color: #005cb9 !important;
+	border-color: #005cb9 !important;
+  color: #fff !important;
+}
+
+#event_results .event_footer .links .rsvp_button a:hover
+#event_results .event_footer .links .rsvp_button a:focus {
+	text-decoration: none;
+  color: #fff !important;
+  background-color: #006cc9 !important;
+  border-color: #006cc9 !important;
+}
+
+/* ------- Event Detail Pages ------- */
+
+@media (min-width: 768px) {
+	.bsd-page .ui-widget-content {
+		width: 50%;
+		float: left;
+		padding: 10px;
+	}
+}
+
+.bsd-page.bsd-event-details .ui-widget-header {
+	display: none !important;
+}
+
+@media (min-width: 768px) {
+	.bsd.standard .bsd-event-details #signup {
+		max-width: none;
+		width: 100%;
+	}
+}
+
+#SKIN #event_rsvp #signupform th.form_label {
+	width: 40%;
+	font-size: 14px;
+}
+
+#event_rsvp br {
+	display: none !important;
+}
+
+#SKIN table table {
+	margin-bottom: 0 !important;
+}

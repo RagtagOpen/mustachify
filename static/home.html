@@ -9,20 +9,9 @@
     <h1>'Stache-ification Station</h1>
 
     <div class="form-box">
-
-      {% with messages = get_flashed_messages() %}
-        {% if messages %}
-          <ul class=flashes>
-          {% for message in messages %}
-            <li>{{ message }}</li>
-          {% endfor %}
-          </ul>
-        {% endif %}
-      {% endwith %}
-
       <h2>Ready to IronStache yourself?</h2>
       <p>Select a photo from your computer to get started.</p>
-      <form method="POST" action="{{ url_for('submit_form') }}" enctype="multipart/form-data">
+      <form method="POST" action="/result/new" enctype="multipart/form-data">
 
         <input type="file" name="original" id="file-input" class="file-input">
         <label for="file-input">Upload a photo</label>
