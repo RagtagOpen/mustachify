@@ -19,21 +19,38 @@ html, body {
 	z-index: -1;
 }
 /*accessibility hack: https://tympanus.net/codrops/2015/09/15/styling-customizing-file-inputs-smart-way/*/
-.file-input + label {
-	margin-top: 24px;
-	padding: 10px 30px;
-    font-size: 1.1em;
+.file-input + label, input[type="button"] {
     font-weight: 600;
     color: white;
     background-color: #2358ca;
-    display: inline-block;
     text-transform: uppercase;
     letter-spacing: 1px;
     cursor: pointer; /* "hand" cursor */
+}
+
+.file-input + label {
+	padding: 10px 30px;
+	margin-top: 24px;
+	font-size: 1.1em;
+	display: inline-block;
+}
+
+input[type="button"] {
+	padding: 10px 10px;
+	font-size: 0.8em;
+	/*display: block;*/
+	display: inline-block;
+	margin-right: 5px;
 }
 
 .file-input:focus + label, .file-input + label:hover {
     background-color: #2095EA;
     /*outline: 1px dotted #000;
 	outline: -webkit-focus-ring-color auto 1px;*/
+}
+
+.preview {
+	/*border: 1px solid gray;*/
+	width: 90%;
+	margin-bottom: 20px;
 }
