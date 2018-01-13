@@ -1,7 +1,7 @@
 <html>
   <head>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
   </head>
   <body>
 
@@ -25,6 +25,8 @@
 
         <input type="file" name="original" id="file-input" class="file-input">
         <label for="file-input">Upload a photo</label>
+
+        <input type="submit" id="file-submit" value="Mustachify Me!">
 
         <p id="status">[Photo sizing tips]</p>
       </form>
