@@ -12,16 +12,9 @@
       <h2>Ready to IronStache yourself?</h2>
       <p>Select a photo from your computer to get started.</p>
 
-      {% with messages = get_flashed_messages() %}
-        {% if messages %}
-          <ul class="flashes errors">
-
-          {% for message in messages %}
-            <li>{{ message }}</li>
-          {% endfor %}
-          </ul>
-        {% endif %}
-      {% endwith %}
+      <ul class="flashes errors invisible">
+        <li>This is an error message doop dee doo trolol lo lo lollo lo</li>
+      </ul>
 
       <form method="POST" action="{{ url_for('submit_form') }}" enctype="multipart/form-data">
 
