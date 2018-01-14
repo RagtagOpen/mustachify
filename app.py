@@ -238,11 +238,11 @@ def submit_form():
     file = request.files.get("original")
 
     if not file or file.filename == '':
-        flash("Make sure you select a file to mustachify")
+        flash("Oops, you didn't select a file. Please try again!")
         return redirect(url_for('index'))
 
     if allowed_file(file):
-        flash("We can't add a mustache to a file like that")
+        flash("We can't add a mustache to that kind of file. Try a file ending in .png, .jpg, or .gif.")
         return redirect(url_for('index'))
 
     # Mustachify the image
