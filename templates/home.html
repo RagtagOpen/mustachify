@@ -24,12 +24,12 @@
         {% endif %}
       {% endwith %}
 
-      <form method="POST" action="{{ url_for('submit_form') }}" enctype="multipart/form-data">
+      <form method="POST" action="{{ url_for('submit_form') }}" enctype="multipart/form-data" id="mustachify-form">
 
         <input type="file" name="original" id="file-input" class="file-input">
         <label for="file-input">Upload a photo</label>
 
-        <input type="submit" id="file-submit" value="Mustachify Me!">
+        <input type="submit" id="file-submit" value="Mustachify Me!" class="invisible">
 
       </form>
 
@@ -37,4 +37,9 @@
     </div>
 
   </body>
+  <script>
+    document.getElementById("file-input").onchange = function() {
+      document.getElementById("mustachify-form").submit();
+    };
+  </script>
 </html>
