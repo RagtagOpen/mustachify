@@ -242,7 +242,7 @@ def submit_form():
         return redirect(url_for('index'))
 
     if allowed_file(file):
-        flash("We can't add a mustache to that kind of file. Try a file ending in .png, .jpg, or .gif.")
+        flash("We can't add a mustache to that kind of file. Try a file ending in .png, .jpg or .jpeg")
         return redirect(url_for('index'))
 
     # Mustachify the image
