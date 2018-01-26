@@ -33,13 +33,18 @@
 
       </form>
 
-      <p id="status">[Photo sizing tips]</p>
+      <p id="tips">[Photo sizing tips]</p>
+      <div id="status">
+        <img src="/static/images/spinner.gif">
+      </div>
     </div>
 
   </body>
+
   <script>
     document.getElementById("file-input").onchange = function() {
       document.getElementById("mustachify-form").submit();
+      document.getElementById("status").style.display = 'block';
     };
   </script>
 </html>

@@ -70,6 +70,10 @@ input[type="button"], {
 	outline: -webkit-focus-ring-color auto 1px;*/
 }
 
+#status {
+  display:none;
+}
+
 .preview {
 	/*border: 1px solid gray;*/
 	width: 90%;
