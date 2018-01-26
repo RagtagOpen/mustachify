@@ -20,7 +20,7 @@ def generate_random_id():
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = generate_random_id()
-app.config['ALLOWED_EXTENSIONS'] = set(['png', 'jpg', 'jpeg', 'gif'])
+app.config['ALLOWED_EXTENSIONS'] = set(['png', 'jpg', 'jpeg'])
 
 
 def allowed_file(filename):
