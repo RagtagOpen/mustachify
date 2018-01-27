@@ -241,7 +241,7 @@ def submit_form():
         flash("Oops, you didn't select a file. Please try again!")
         return redirect(url_for('index'))
 
-    if not allowed_file(file):
+    if not allowed_file(file.filename):
         flash("We can't add a mustache to that kind of file. Try a file ending in .png, .jpg or .jpeg")
         return redirect(url_for('index'))
 
