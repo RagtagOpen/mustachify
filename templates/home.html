@@ -3,6 +3,7 @@
   	<title>Stache Yo Self</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
 
@@ -11,40 +12,45 @@
     <div class="form-box">
 
       <h2>Ready to IronStache yourself?</h2>
-      <p>Select a photo from your computer to get started.</p>
 
-      {% with messages = get_flashed_messages() %}
-        {% if messages %}
-          <ul class="flashes errors">
+      <div id="overlay">
+        <div id="status">
+          <img src="/static/images/spinner.gif">
+        </div>
+      </div>
 
-          {% for message in messages %}
-            <li>{{ message }}</li>
-          {% endfor %}
-          </ul>
-        {% endif %}
-      {% endwith %}
+      <div id="upload-area">
+        <p>Select a photo from your computer to get started.</p>
 
-      <form method="POST" action="{{ url_for('submit_form') }}" enctype="multipart/form-data" id="mustachify-form">
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class="flashes errors">
 
-        <input type="file" name="original" id="file-input" class="file-input">
-        <label for="file-input">Upload a photo</label>
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
 
-        <input type="submit" id="file-submit" class="invisible">
+        <form method="POST" action="{{ url_for('submit_form') }}" enctype="multipart/form-data" id="mustachify-form">
 
-      </form>
+          <input type="file" name="original" id="file-input" class="file-input">
+          <label for="file-input">Upload a photo</label>
 
-      <p id="tips">[Photo sizing tips]</p>
-      <div id="status">
-        <img src="/static/images/spinner.gif">
+          <input type="submit" id="file-submit" class="invisible">
+
+        </form>
+
+        <p id="tips">[Photo sizing tips]</p>
       </div>
     </div>
-
   </body>
 
   <script>
     document.getElementById("file-input").onchange = function() {
       document.getElementById("mustachify-form").submit();
-      document.getElementById("status").style.display = 'block';
+      document.getElementById("overlay").style.display = "block";
     };
   </script>
 </html>
