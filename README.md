@@ -33,8 +33,3 @@ In your browser, nagivate to [http://localhost:5000/](http://localhost:5000/) to
 ## More Links
 
 This codebase was begun by cobbling together info from the [Flask Quickstart Guide](http://flask.pocoo.org/docs/0.12/quickstart/) and this [S3 direct upload tutorial](https://devcenter.heroku.com/articles/s3-upload-python).
-
-## ToDo
-
-1. Integrate Reckognition and stachification code into Flask app.
-2. Layer in some CSS to provide a better UX
