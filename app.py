@@ -63,6 +63,38 @@ def remove_transparency(im, bg_color=(255, 255, 255)):
 class NoFacesFoundException(Exception):
     pass
 
+# image rotation code from https://github.com/kylefox/python-image-orientation-patch/
+
+# The EXIF tag that holds orientation data.
+EXIF_ORIENTATION_TAG = 274
+
+# Obviously the only ones to process are 3, 6 and 8.
+# All are documented here for thoroughness.
+ORIENTATIONS = {
+    1: ("Normal", 0),
+    2: ("Mirrored left-to-right", 0),
+    3: ("Rotated 180 degrees", Image.ROTATE_180),
+    4: ("Mirrored top-to-bottom", 0),
+    5: ("Mirrored along top-left diagonal", 0),
+    6: ("Rotated 90 degrees", Image.ROTATE_270),
+    7: ("Mirrored along top-right diagonal", 0),
+    8: ("Rotated 270 degrees", Image.ROTATE_90)
+}
+
+def remove_exif_rotation(original_image_buf):
+    img = Image.open(original_image_buf)
+    try:
+        orientation = img._getexif()[EXIF_ORIENTATION_TAG]
+    except (TypeError, AttributeError, KeyError):
+        original_image_buf.seek(0)
+        return original_image_buf
+    if orientation in [3,6,8]:
+        degrees = ORIENTATIONS[orientation][1]
+        img = img.transpose(degrees)
+    buf = io.BytesIO()
+    img.save(buf, 'JPEG', quality=80)
+    buf.seek(0)
+    return buf
 
 def apply_mustache(s3_bucket, image_data):
     # Load the image into memory
@@ -70,9 +102,12 @@ def apply_mustache(s3_bucket, image_data):
     original_buf = io.BytesIO(image_data.read())
     original_buf.seek(0)
 
-    mustachioed_buf = mustachify(original_buf)
+    rotated_image_buf = remove_exif_rotation(original_buf)
+
+    mustachioed_buf = mustachify(rotated_image_buf)
 
     # Put that image on S3
+    # since we're just working with the buffer, the uploaded image happily won't have any EXIF data.
     s3 = boto3.client("s3", 'us-east-1')
     result_id = generate_random_id()
     result_key = posixpath.join('result', result_id)
