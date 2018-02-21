@@ -3,33 +3,53 @@
   	<title>Stache Yo Self</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/share-buttons.css') }}">
 
   </head>
   <body>
 
     <h1>Stache Yo Self</h1>
 
-    <a href="{{ mustachioed_url }}" download><img class="preview" id="preview" src="{{ mustachioed_url }}"></a>
-    <br>
+    <div class="preview-container">
+      <a href="{{ mustachioed_url }}"  target="_blank">
+        <img class="preview" id="preview" src="{{ mustachioed_url }}">
+      </a>
 
-    <a href="{{ mustachioed_url }}" download class="download-btn"><input type="button" value="Download"></a>
+      <div class="share-buttons">
+        <a class="share-button download" href="{{ mustachioed_url }}" target="_blank">
+          <img src="/static/images/download.svg">
+          <div class="text">Download</div>
+          <!-- <input type="button" value="Download"> -->
+        </a>
+        <!-- <a href="{{ mustachioed_url }}" download class="download-btn"><input type="button" value="Download"></a> -->
 
-    <div
-       class="fb-share-button" 
-      data-href="https://ironstache.herokuapp.com/result/BtzFEbdXTkmQKXTVKGdGjg"
-      data-layout="button"
-      data-size="large"
-      data-mobile-iframe="true">
-      <a target="_blank"
-         href="https://www.facebook.com/sharer/sharer.php?u={{ mustachioed_url }}&amp;src=sdkpreparse"
-        class="fb-xfbml-parse-ignore"
-        >Share on Facebook</a>
-    </div>
-<!-- https%3A%2F%2Fironstache.herokuapp.com%2Fresult%2FBtzFEbdXTkmQKXTVKGdGjg -->
+        <a class="share-button facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ mustachioed_url }}&amp;src=sdkpreparse" target="_blank">
+          <img src="/static/images/facebook-logo.svg">
+          <div class="text">Share on Facebook</div>
+        </a>
 
-    <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            <!-- <div -->
+       <!-- class="fb-share-button" -->
+      <!-- data-href="https://ironstache.herokuapp.com/result/BtzFEbdXTkmQKXTVKGdGjg" -->
+      <!-- data-layout="button" -->
+      <!-- data-size="large" -->
+      <!-- data-mobile-iframe="true"> -->
+      <!-- <a target="_blank" -->
+         <!-- href="https://www.facebook.com/sharer/sharer.php?u={{ mustachioed_url }}&amp;src=sdkpreparse" -->
+        <!-- class="fb-xfbml-parse-ignore" -->
+        <!-- >Share on Facebook</a> -->
+    <!-- </div> -->
 
-    <div id="fb-root"></div>
+
+        <a class="share-button twitter" href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank">
+          <img src="/static/images/twitter-logo.svg">
+          <div class="text">Share on Twitter</div>
+        </a>
+
+      </div>
+      <!-- <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> -->
+
+          <div id="fb-root"></div>
     <script>(function(d, s, id) {
       var js, fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) return;
@@ -38,5 +58,8 @@
       fjs.parentNode.insertBefore(js, fjs);
       }(document, 'script', 'facebook-jssdk'));
     </script>
+
+    </div>
+
   </body>
 </html>

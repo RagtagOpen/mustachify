@@ -90,22 +90,12 @@ input[type="button"], {
   -ms-transform: translate(-50%,-50%);
 }
 
-.preview {
-	/*border: 1px solid gray;*/
-	width: 90%;
-	margin-bottom: 20px;
+.preview-container {
+  width: 100%;
 }
 
-.download-btn {
-  height: 28px;
-  border-radius: 4px;
-  padding: 1px 10px 1px 9px;
-  position: relative;
-  box-sizing: border-box;
-  color: #fff;
-  font-weight: 500;
-  cursor: pointer;
-  display: inline-block;
-  outline: 0;
-  text-decoration: none;
+.preview {
+  border: 1px solid gray;
+  width: 100%;
+  margin-bottom: 20px;
 }
