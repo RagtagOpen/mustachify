@@ -35,6 +35,7 @@
   font-size: 5vh;
   white-space: nowrap;
   letter-spacing: .05vw;
+  background-color: transparent;
 }
 
 .download {

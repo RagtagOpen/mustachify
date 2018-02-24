@@ -1,10 +1,9 @@
 <html>
   <head>
-  	<title>Stache Yo Self</title>
+    <title>Stache Yo Self</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/share-buttons.css') }}">
-
   </head>
   <body>
 
@@ -16,50 +15,20 @@
       </a>
 
       <div class="share-buttons">
-        <a class="share-button download" href="{{ mustachioed_url }}" target="_blank">
+        <a class="share-button download" href="{{ mustachioed_url }}" download>
           <img src="/static/images/download.svg">
-          <div class="text">Download</div>
-          <!-- <input type="button" value="Download"> -->
+          <input type="button" value="Download" class="text">
         </a>
-        <!-- <a href="{{ mustachioed_url }}" download class="download-btn"><input type="button" value="Download"></a> -->
 
-        <a class="share-button facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ mustachioed_url }}&amp;src=sdkpreparse" target="_blank">
+        <a class="share-button facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ 'http://www.google.com'|urlencode}}&amp;src=sdkpreparse" target="_blank">
           <img src="/static/images/facebook-logo.svg">
-          <div class="text">Share on Facebook</div>
+          <input type="button" value="Share on Facebook" class="text">
         </a>
-
-            <!-- <div -->
-       <!-- class="fb-share-button" -->
-      <!-- data-href="https://ironstache.herokuapp.com/result/BtzFEbdXTkmQKXTVKGdGjg" -->
-      <!-- data-layout="button" -->
-      <!-- data-size="large" -->
-      <!-- data-mobile-iframe="true"> -->
-      <!-- <a target="_blank" -->
-         <!-- href="https://www.facebook.com/sharer/sharer.php?u={{ mustachioed_url }}&amp;src=sdkpreparse" -->
-        <!-- class="fb-xfbml-parse-ignore" -->
-        <!-- >Share on Facebook</a> -->
-    <!-- </div> -->
-
 
         <a class="share-button twitter" href="https://twitter.com/share?ref_src=twsrc%5Etfw" target="_blank">
           <img src="/static/images/twitter-logo.svg">
-          <div class="text">Share on Twitter</div>
+          <input type="button" value="Share on Twitter" class="text">
         </a>
-
       </div>
-      <!-- <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> -->
-
-          <div id="fb-root"></div>
-    <script>(function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.12';
-      fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));
-    </script>
-
     </div>
-
-  </body>
 </html>
