@@ -277,6 +277,8 @@ def submit_form():
 def show_result(result_id):
     return render_template(
         'show.html',
+        # First iteration involves just sharing homepage via FB. More sophisticated sharing may come down the pike later.
+        shareable_url=os.environ.get('ROOT_URL'),
         mustachioed_url=posixpath.join(
             'https://s3.amazonaws.com/',
             os.environ.get('S3_BUCKET'),
