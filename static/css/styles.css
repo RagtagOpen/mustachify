@@ -90,11 +90,11 @@ input[type="button"], {
   -ms-transform: translate(-50%,-50%);
 }
 
-.preview-container {
+#preview-container {
   width: 100%;
 }
 
-.preview {
+#preview {
   border: 1px solid gray;
   width: 100%;
   margin-bottom: 20px;
