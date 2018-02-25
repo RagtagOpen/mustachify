@@ -235,7 +235,7 @@ def mustachify(original_image_buf):
         # move the mustache around in because affine transform doesn't
         # expand for you
         mustache_im = Image.open(mustache_image_name)
-        if mustache_im.size[0] < im.size[0] or mustache_im.size[1] < im.size[1]:
+        if mustache_im.size[0] < im.size[0] and mustache_im.size[1] < im.size[1]:
             mustache_overlay = Image.new('RGBA', im.size)
             # Put the mustache image in the overlay
             mustache_overlay.paste(mustache_im, mustache_im)
