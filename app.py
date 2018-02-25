@@ -198,6 +198,7 @@ def mustachify(original_image_buf):
         raise NoFacesFoundException()
 
     im = Image.open(original_image_buf)
+    im = remove_transparency(im)
     for face in response['FaceDetails']:
         if face['Confidence'] < 0.9:
             # Only work on things we're really sure are faces
