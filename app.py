@@ -81,20 +81,23 @@ ORIENTATIONS = {
     8: ("Rotated 270 degrees", Image.ROTATE_90)
 }
 
-def remove_exif_rotation(original_image_buf):
-    img = Image.open(original_image_buf)
+def remove_exif_rotation(img):
     try:
         orientation = img._getexif()[EXIF_ORIENTATION_TAG]
     except (TypeError, AttributeError, KeyError):
-        original_image_buf.seek(0)
-        return original_image_buf
+        return img
+
     if orientation in [3,6,8]:
         degrees = ORIENTATIONS[orientation][1]
         img = img.transpose(degrees)
-    buf = io.BytesIO()
-    img.save(buf, 'JPEG', quality=80)
-    buf.seek(0)
-    return buf
+
+    return img
+
+def limit_image_size(img):
+    # Limit to 1500x1500 pixels, but maintain the existing aspect ratio
+    img.thumbnail((1500, 1500))
+
+    return img
 
 def apply_mustache(s3_bucket, image_data):
     # Load the image into memory
@@ -102,9 +105,22 @@ def apply_mustache(s3_bucket, image_data):
     original_buf = io.BytesIO(image_data.read())
     original_buf.seek(0)
 
-    rotated_image_buf = remove_exif_rotation(original_buf)
+    original_img = Image.open(original_buf)
 
-    mustachioed_buf = mustachify(rotated_image_buf)
+    rotated_image_img = remove_exif_rotation(original_img)
+    del original_img
+
+    reduced_image_img = limit_image_size(rotated_image_img)
+    del rotated_image_img
+
+    reduced_image_img = remove_transparency(reduced_image_img)
+
+    reduced_image_buf = io.BytesIO()
+    reduced_image_img.save(reduced_image_buf, 'JPEG', quality=80)
+    reduced_image_buf.seek(0)
+    del reduced_image_img
+
+    mustachioed_buf = mustachify(reduced_image_buf)
 
     # Put that image on S3
     # since we're just working with the buffer, the uploaded image happily won't have any EXIF data.
