@@ -218,10 +218,12 @@ def mustachify(original_image_buf):
     for face in response['FaceDetails']:
         if face['Confidence'] < 0.9:
             # Only work on things we're really sure are faces
+            app.logger.info("Skipping face with confidence < 0.9: %s", face['Confidence'])
             continue
 
-        if abs(face['Pose']['Yaw']) > 30:
+        if abs(face['Pose']['Yaw']) > 35:
             # Only work on faces that are looking at the camera
+            app.logger.info("Skipping face with yaw greater than 35: %s", face['Pose']['Yaw'])
             continue
 
         landmarks = dict([
