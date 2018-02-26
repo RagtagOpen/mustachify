@@ -2,6 +2,7 @@
   display: -ms-flex;
   display: -webkit-flex;
   display: flex;
+  max-width: 900px;
 }
 
 .share-button {
@@ -12,7 +13,7 @@
   justify-content: center;
   align-items: center;
   color: white;
-  padding: .8vw 1vw;
+  padding: .4vw .15vw;
   margin-right: 1vw;
   cursor: pointer;
   text-decoration: none;
@@ -23,16 +24,15 @@
 }
 
 .share-button img {
-  height: 5vh;
+  height: 2vh;
 }
 .share-button .text {
   display: -ms-flex;
   display: -webkit-flex;
   display: flex;
   align-items: center;
-  margin-left: 0.5vw;
   font-weight: 500;
-  font-size: 5vh;
+  font-size: 2vh;
   white-space: nowrap;
   letter-spacing: .05vw;
   background-color: transparent;
