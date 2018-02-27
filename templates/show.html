@@ -1,19 +1,34 @@
 <html>
   <head>
-  	<title>Stache Yo Self</title>
+    <title>Stache Yo Self</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/share-buttons.css') }}">
   </head>
   <body>
 
     <h1>Stache Yo Self</h1>
 
-    <a href="{{ mustachioed_url }}" download><img class="preview" id="preview" src="{{ mustachioed_url }}"></a>
-    <br>
+    <div id="preview-container">
+      <a href="{{ mustachioed_url }}" target="_blank">
+        <img id="preview" src="{{ mustachioed_url }}">
+      </a>
 
-    <a href="{{ mustachioed_url }}" download><input type="button" value="Download"></a>
-    <input type="button" value="Share on Facebook">
-    <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+      <div class="share-buttons">
+        <a class="share-button download" href="{{ mustachioed_url }}" download>
+          <img src="/static/images/download.svg">
+          <input type="button" value="Download" class="text">
+        </a>
 
-  </body>
+        <a class="share-button facebook" href="https://www.facebook.com/sharer/sharer.php?u={{shareable_url|urlencode}}&amp;src=sdkpreparse" target="_blank">
+          <img src="/static/images/facebook-logo.svg">
+          <input type="button" value="Share on Facebook" class="text">
+        </a>
+
+        <a class="share-button twitter" href="https://twitter.com/intent/tweet?text=Mustachify yourself!&&url={{ shareable_url }}&via=ragtag_team" target="_blank" title="Tweet">
+          <img src="/static/images/twitter-logo.svg">
+          <input type="button" value="Share on Twitter" class="text">
+        </a>
+      </div>
+    </div>
 </html>
