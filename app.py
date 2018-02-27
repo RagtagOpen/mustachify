@@ -215,6 +215,7 @@ def mustachify(original_image_buf):
 
     im = Image.open(original_image_buf)
     im = remove_transparency(im)
+    at_least_one_face = False
     for face in response['FaceDetails']:
         if face['Confidence'] < 0.9:
             # Only work on things we're really sure are faces
@@ -225,6 +226,8 @@ def mustachify(original_image_buf):
             # Only work on faces that are looking at the camera
             app.logger.info("Skipping face with yaw greater than 35: %s", face['Pose']['Yaw'])
             continue
+
+        at_least_one_face = True
 
         landmarks = dict([
             (l['Type'], (l['X'] * im.size[0], l['Y'] * im.size[1]))
@@ -286,6 +289,9 @@ def mustachify(original_image_buf):
         )
 
         im.paste(mustache_overlay, (0, 0), mustache_overlay)
+
+    if not at_least_one_face:
+        raise NoFacesFoundException()
 
     # Save the result as a JPEG in memory
     buf = io.BytesIO()
