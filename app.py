@@ -10,6 +10,7 @@ import posixpath
 import random
 import shutil
 import uuid
+import urllib.parse
 from flask import Flask, flash, render_template, request, redirect, url_for
 from PIL import Image
 
@@ -307,30 +308,41 @@ def mustachify(original_image_buf):
 def index():
     return render_template(
         'home.html',
+        origin=request.args.get('origin') or '',
     )
 
 
 @app.route('/result/new', methods=["POST"])
 def submit_form():
     file = request.files.get("original")
+    origin = request.form.get('origin')
+    query_params = ''
+    if origin:
+        query_params = '?{}'.format(
+            urllib.parse.urlencode(
+                {
+                    'origin': origin,
+                }
+            )
+        )
 
     if not file or file.filename == '':
         flash("Oops, you didn't select a file. Please try again!")
-        return redirect(url_for('index'))
+        return redirect(url_for('index') + query_params)
 
     if not allowed_file(file.filename):
         flash("We can't add a mustache to that kind of file. Try a file ending in .png, .jpg or .jpeg")
-        return redirect(url_for('index'))
+        return redirect(url_for('index') + query_params)
 
     # Mustachify the image
     try:
         result_id = apply_mustache(os.environ.get('S3_BUCKET'), file)
     except NoFacesFoundException:
         flash("Oh no! I couldn't find any faces on your picture. Please try again with a clearer picture.")
-        return redirect(url_for('index'))
+        return redirect(url_for('index') + query_params)
 
     # And show them the mustachioed image
-    return redirect(url_for('show_result', result_id=result_id))
+    return redirect(url_for('show_result', result_id=result_id) + query_params)
 
 
 @app.route('/result/<result_id>')

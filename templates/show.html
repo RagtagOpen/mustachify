@@ -16,18 +16,15 @@
 
       <div class="share-buttons">
         <a class="share-button download" href="{{ mustachioed_url }}" download>
-          <img src="/static/images/download.svg">
-          <input type="button" value="Download" class="text">
+          <img src="/static/images/download.svg"> <span class="text">Download</span>
         </a>
 
         <a class="share-button facebook" href="https://www.facebook.com/sharer/sharer.php?u={{shareable_url|urlencode}}&amp;src=sdkpreparse" target="_blank">
-          <img src="/static/images/facebook-logo.svg">
-          <input type="button" value="Share on Facebook" class="text">
+          <img src="/static/images/facebook-logo.svg"> <span class="text">Share on Facebook</span>
         </a>
 
         <a class="share-button twitter" href="https://twitter.com/intent/tweet?text=Mustachify yourself!&&url={{ shareable_url }}&via=ragtag_team" target="_blank" title="Tweet">
-          <img src="/static/images/twitter-logo.svg">
-          <input type="button" value="Share on Twitter" class="text">
+          <img src="/static/images/twitter-logo.svg"> <span class="text">Share on Twitter</span>
         </a>
       </div>
     </div>
