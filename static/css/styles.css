@@ -95,7 +95,48 @@ input[type="button"], {
 }
 
 #preview {
-  border: 1px solid gray;
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 1em;
+  max-width: 100%;
+  height: auto;
+}
+
+.share-button {
+  display: inline-flex;
+  color: white;
+  padding: 12px;
+  margin: 0 1em 1em 0;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.share-button img {
+  margin-right: 0.75em;
+}
+
+.share-button:last-child {
+  margin-right: 0px;
+}
+
+.share-button .text {
+  font-weight: 600;
+  font-size: 1em;
+  letter-spacing: 0.05em;
+  line-height: 1;
+  background-color: transparent;
+}
+
+.download {
+  background-color: #455a64;
+}
+
+.facebook {
+  background-color: #3b5998;
+}
+
+.twitter {
+  background-color: #00a0ec;
 }
