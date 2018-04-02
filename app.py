@@ -202,7 +202,9 @@ def scale_rotate_translate(image, angle, center=None, new_center=None, scale=Non
 MUSTACHES = {
     'mustache_test.png': {
         'center': (1039, 802),
-        'mouth_starts_at': 18
+        'mouth_starts_at': 18,
+        # Make the mustache 15% wider than the mouth
+        'mustache_width_ratio': 1.25,
     }
 }
 
@@ -270,7 +272,7 @@ def mustachify(original_image_buf):
         mustache_upper_lip_height = (mustache_im.size[1] - mustache_params['mouth_starts_at'])
 
         height_scale = desired_upper_lip_height / mustache_upper_lip_height
-        width_scale = desired_mouth_width / mustache_im.size[0]
+        width_scale = (desired_mouth_width * mustache_params['mustache_width_ratio']) / mustache_im.size[0]
 
         alpha = math.degrees(
             math.atan2(
