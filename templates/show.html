@@ -28,4 +28,45 @@
         </a>
       </div>
     </div>
+    <script>
+    var oldHeight = 0;
+var parentDomain = null;
+var embedOrigin = (/(^|&|\?)origin=([^&]+|\b)/.exec(window.location.search) || []).slice(-1)[0] || null;
+if (embedOrigin) {
+  parentDomain = decodeURIComponent(embedOrigin);
+  var a = document.createElement('a');
+  a.href = parentDomain;
+  parentDomain = a.protocol + '//' + a.hostname + ((a.protocol === 'http:' && a.port !== '80') || (a.protocol === 'https:' && a.port !== '443') ? ':' + a.port : '');
+  parentDomain = parentDomain.replace(/:$/, '');
+}
+var external = false;
+try {
+  external = window.parent !== window;
+} catch (e) {
+  external = true;
+}
+var body = document.body;
+var html = document.documentElement || document.getElementsByTagName('html')[0];
+var updateHeight = function() {};
+var timeout;
+if (parentDomain && external) {
+  updateHeight = function() {
+    var height = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+    if (height !== oldHeight) {
+      oldHeight = height;
+      window.parent.postMessage('{"height": ' + height + '}', parentDomain);
+    }
+  };
+  updateHeight();
+  window.addEventListener('load', updateHeight);
+  window.addEventListener('resize', function() {
+    if (!timeout) {
+      timeout = setTimeout(function() {
+        timeout = null;
+        updateHeight();
+      }, 66);
+    }
+  });
+}
+</script>
 </html>
