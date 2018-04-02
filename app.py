@@ -315,34 +315,25 @@ def index():
 @app.route('/result/new', methods=["POST"])
 def submit_form():
     file = request.files.get("original")
-    origin = request.form.get('origin')
-    query_params = ''
-    if origin:
-        query_params = '?{}'.format(
-            urllib.parse.urlencode(
-                {
-                    'origin': origin,
-                }
-            )
-        )
+    origin = request.form.get('origin') or ''
 
     if not file or file.filename == '':
         flash("Oops, you didn't select a file. Please try again!")
-        return redirect(url_for('index') + query_params)
+        return redirect(url_for('index', origin=origin))
 
     if not allowed_file(file.filename):
         flash("We can't add a mustache to that kind of file. Try a file ending in .png, .jpg or .jpeg")
-        return redirect(url_for('index') + query_params)
+        return redirect(url_for('index', origin=origin))
 
     # Mustachify the image
     try:
         result_id = apply_mustache(os.environ.get('S3_BUCKET'), file)
     except NoFacesFoundException:
         flash("Oh no! I couldn't find any faces on your picture. Please try again with a clearer picture.")
-        return redirect(url_for('index') + query_params)
+        return redirect(url_for('index', origin=origin))
 
     # And show them the mustachioed image
-    return redirect(url_for('show_result', result_id=result_id) + query_params)
+    return redirect(url_for('show_result', result_id=result_id, origin=origin))
 
 
 @app.route('/result/<result_id>')
