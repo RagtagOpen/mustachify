@@ -126,7 +126,7 @@ def apply_mustache(s3_bucket, image_data):
     # since we're just working with the buffer, the uploaded image happily won't have any EXIF data.
     s3 = boto3.client("s3", 'us-east-1')
     result_id = generate_random_id()
-    result_key = posixpath.join('result', result_id)
+    result_key = posixpath.join('result', result_id) + ".jpg"
     s3.upload_fileobj(
         mustachioed_buf, s3_bucket, result_key,
         ExtraArgs={
@@ -345,7 +345,7 @@ def show_result(result_id):
             'https://s3.amazonaws.com/',
             os.environ.get('S3_BUCKET'),
             'result',
-            result_id
+            result_id + ".jpg"
         ),
     )
 
