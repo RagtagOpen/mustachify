@@ -1,30 +1,25 @@
 <html>
   <head>
     <title>Mustachify</title>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/share-buttons.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
     <div id="preview-container">
-      <a href="{{ mustachioed_url }}" download>
-        <img id="preview" src="{{ mustachioed_url }}">
-      </a>
+      <img id="preview" src="{{ mustachioed_url }}">
 
       <div class="share-buttons">
         <a class="share-button download" href="{{ mustachioed_url }}" download>
-          <img src="/static/images/download.svg">
-          <input type="button" value="Download" class="text">
+          <img src="/static/images/download.svg"> <span class="text">Download</span>
         </a>
 
         <a class="share-button facebook" href="https://www.facebook.com/sharer/sharer.php?u={{shareable_url|urlencode}}&amp;src=sdkpreparse" target="_blank">
-          <img src="/static/images/facebook-logo.svg">
-          <input type="button" value="Share on Facebook" class="text">
+          <img src="/static/images/facebook-logo.svg"> <span class="text">Share on Facebook</span>
         </a>
 
         <a class="share-button twitter" href="https://twitter.com/intent/tweet?text=Mustachify yourself!&&url={{ shareable_url }}&via=ragtag_team" target="_blank" title="Tweet">
-          <img src="/static/images/twitter-logo.svg">
-          <input type="button" value="Share on Twitter" class="text">
+          <img src="/static/images/twitter-logo.svg"> <span class="text">Share on Twitter</span>
         </a>
       </div>
     </div>
@@ -32,5 +27,46 @@
     <p style="text-align: center">
       <a href="https://ragtag.org/?utm_medium=web&amp;utm_source=mustachify&amp;utm_name=empowered-badge" target="_top"><img src="https://assets.ragtag.tech/empowered-by-ragtag.svg" alt="Empowered by Ragtag"></a>
     </p>
-  </body>
+
+    <script>
+    var oldHeight = 0;
+var parentDomain = null;
+var embedOrigin = (/(^|&|\?)origin=([^&]+|\b)/.exec(window.location.search) || []).slice(-1)[0] || null;
+if (embedOrigin) {
+  parentDomain = decodeURIComponent(embedOrigin);
+  var a = document.createElement('a');
+  a.href = parentDomain;
+  parentDomain = a.protocol + '//' + a.hostname + ((a.protocol === 'http:' && a.port !== '80') || (a.protocol === 'https:' && a.port !== '443') ? ':' + a.port : '');
+  parentDomain = parentDomain.replace(/:$/, '');
+}
+var external = false;
+try {
+  external = window.parent !== window;
+} catch (e) {
+  external = true;
+}
+var body = document.body;
+var html = document.documentElement || document.getElementsByTagName('html')[0];
+var updateHeight = function() {};
+var timeout;
+if (parentDomain && external) {
+  updateHeight = function() {
+    var height = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+    if (height !== oldHeight) {
+      oldHeight = height;
+      window.parent.postMessage('{"height": ' + height + '}', parentDomain);
+    }
+  };
+  updateHeight();
+  window.addEventListener('load', updateHeight);
+  window.addEventListener('resize', function() {
+    if (!timeout) {
+      timeout = setTimeout(function() {
+        timeout = null;
+        updateHeight();
+      }, 66);
+    }
+  });
+}
+</script>
 </html>

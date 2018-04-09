@@ -1,7 +1,7 @@
 <html>
   <head>
   	<title>Mustachify</title>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
@@ -13,44 +13,88 @@
           <img src="/static/images/spinner.gif">
         </div>
       </div>
-
-      <div id="upload-area">
-        <p>Select a photo from your computer to get started.</p>
-
-        {% with messages = get_flashed_messages() %}
-          {% if messages %}
-            <ul class="flashes errors">
-
-            {% for message in messages %}
-              <li>{{ message }}</li>
-            {% endfor %}
-            </ul>
-          {% endif %}
-        {% endwith %}
-
-        <form method="POST" action="{{ url_for('submit_form') }}" enctype="multipart/form-data" id="mustachify-form">
-
-          <input type="file" name="original" id="file-input" class="file-input">
-          <label for="file-input">Upload a photo</label>
-
-          <input type="submit" id="file-submit" class="invisible">
-
-        </form>
-        <br>
-
-        <p id="tips">Photos should be in .jpg or .png format. Stache'ing yourself works best on photos where you're looking at the camera head-on.</p>
-      </div>
     </div>
 
-    <p style="text-align: center">
-      <a href="https://ragtag.org/?utm_medium=web&amp;utm_source=mustachify&amp;utm_name=empowered-badge" target="_top"><img src="https://assets.ragtag.tech/empowered-by-ragtag.svg" alt="Empowered by Ragtag"></a>
-    </p>
+    <div id="upload-area">
+      <p>Select a photo from your computer to get&nbsp;started.</p>
 
-    <script>
-    document.getElementById('file-input').onchange = function() {
+      {% with messages = get_flashed_messages() %} {% if messages %}
+      <ul class="flashes errors">
+
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %} {% endwith %}
+
+      <form method="POST" action="{{ url_for('submit_form') }}" enctype="multipart/form-data" id="mustachify-form">
+        <input type="hidden" name="origin" value="{{ origin }}">
+
+        <input type="file" name="original" id="file-input" class="file-input">
+        <label for="file-input">Upload a photo</label>
+
+        <input type="submit" id="file-submit" class="invisible">
+
+      </form>
+      <br>
+
+      <p id="tips">Photos should be in .jpg or .png format. Stache'ing yourself works best on photos where you're looking at the camera&nbsp;<nobr>head-on</nobr>.</p>
+    </div>
+  </div>
+
+  <p style="text-align: center">
+    <a href="https://ragtag.org/?utm_medium=web&amp;utm_source=mustachify&amp;utm_name=empowered-badge" target="_top"><img src="https://assets.ragtag.tech/empowered-by-ragtag.svg" alt="Empowered by Ragtag"></a>
+  </p>
+
+  <script>
+  document.getElementById('file-input').addEventListener('change', function() {
   document.getElementById('mustachify-form').submit();
   document.getElementById('overlay').style.display = 'block';
-};
+});
 </script>
-  </body>
+
+  <script>
+  var oldHeight = 0;
+var parentDomain = null;
+var embedOrigin = (/(^|&|\?)origin=([^&]+|\b)/.exec(window.location.search) || []).slice(-1)[0] || null;
+if (embedOrigin) {
+  parentDomain = decodeURIComponent(embedOrigin);
+  var a = document.createElement('a');
+  a.href = parentDomain;
+  parentDomain = a.protocol + '//' + a.hostname + ((a.protocol === 'http:' && a.port !== '80') || (a.protocol === 'https:' && a.port !== '443') ? ':' + a.port : '');
+  parentDomain = parentDomain.replace(/:$/, '');
+}
+var external = false;
+try {
+  external = window.parent !== window;
+} catch (e) {
+  external = true;
+}
+var body = document.body;
+var html = document.documentElement || document.getElementsByTagName('html')[0];
+var updateHeight = function() {};
+var timeout;
+if (parentDomain && external) {
+  updateHeight = function() {
+    var height = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+    if (height !== oldHeight) {
+      oldHeight = height;
+      window.parent.postMessage('{"height": ' + height + '}', parentDomain);
+    }
+  };
+  updateHeight();
+  window.addEventListener('load', updateHeight);
+  window.addEventListener('resize', function() {
+    if (!timeout) {
+      timeout = setTimeout(function() {
+        timeout = null;
+        updateHeight();
+      }, 66);
+    }
+  });
+}
+</script>
+
+</body>
+
 </html>
