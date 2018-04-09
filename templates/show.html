@@ -1,14 +1,11 @@
 <html>
   <head>
-    <title>Stache Yo Self</title>
+    <title>Mustachify</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/share-buttons.css') }}">
   </head>
   <body>
-
-    <h1>Stache Yo Self</h1>
-
     <div id="preview-container">
       <a href="{{ mustachioed_url }}" target="_blank">
         <img id="preview" src="{{ mustachioed_url }}">
