@@ -127,7 +127,7 @@ def apply_mustache(s3_bucket, image_data):
     # since we're just working with the buffer, the uploaded image happily won't have any EXIF data.
     s3 = boto3.client("s3", 'us-east-1')
     result_id = generate_random_id()
-    result_key = posixpath.join('result', result_id)
+    result_key = posixpath.join('result', result_id) + ".jpg"
     s3.upload_fileobj(
         mustachioed_buf, s3_bucket, result_key,
         ExtraArgs={
@@ -203,7 +203,9 @@ def scale_rotate_translate(image, angle, center=None, new_center=None, scale=Non
 MUSTACHES = {
     'mustache_test.png': {
         'center': (1039, 802),
-        'mouth_starts_at': 18
+        'mouth_starts_at': 18,
+        # Make the mustache 15% wider than the mouth
+        'mustache_width_ratio': 1.25,
     }
 }
 
@@ -271,7 +273,7 @@ def mustachify(original_image_buf):
         mustache_upper_lip_height = (mustache_im.size[1] - mustache_params['mouth_starts_at'])
 
         height_scale = desired_upper_lip_height / mustache_upper_lip_height
-        width_scale = desired_mouth_width / mustache_im.size[0]
+        width_scale = (desired_mouth_width * mustache_params['mustache_width_ratio']) / mustache_im.size[0]
 
         alpha = math.degrees(
             math.atan2(
@@ -346,7 +348,7 @@ def show_result(result_id):
             'https://s3.amazonaws.com/',
             os.environ.get('S3_BUCKET'),
             'result',
-            result_id
+            result_id + ".jpg"
         ),
     )
 

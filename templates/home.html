@@ -1,23 +1,17 @@
 <html>
+  <head>
+  	<title>Mustachify</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
 
-<head>
-  <title>Stache Yo Self</title>
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-
-<body>
-
-  <h1>Stache Yo Self</h1>
-
-  <div class="form-box">
-
-    <h2>Ready to IronStache yourself?</h2>
-
-    <div id="overlay">
-      <div id="status">
-        <img src="/static/images/spinner.gif">
+    <div class="form-box">
+      <div id="overlay">
+        <div id="status">
+          <img src="/static/images/spinner.gif">
+        </div>
       </div>
     </div>
 
@@ -47,17 +41,20 @@
       <p id="tips">Photos should be in .jpg or .png format. Stache'ing yourself works best on photos where you're looking at the camera&nbsp;<nobr>head-on</nobr>.</p>
     </div>
   </div>
-</body>
 
-<script>
-document.getElementById('file-input').addEventListener('change', function() {
+  <p style="text-align: center">
+    <a href="https://ragtag.org/?utm_medium=web&amp;utm_source=mustachify&amp;utm_name=empowered-badge"><img src="https://assets.ragtag.tech/empowered-by-ragtag.svg" alt="Empowered by Ragtag"></a>
+  </p>
+
+  <script>
+  document.getElementById('file-input').addEventListener('change', function() {
   document.getElementById('mustachify-form').submit();
   document.getElementById('overlay').style.display = 'block';
 });
 </script>
 
-<script>
-var oldHeight = 0;
+  <script>
+  var oldHeight = 0;
 var parentDomain = null;
 var embedOrigin = (/(^|&|\?)origin=([^&]+|\b)/.exec(window.location.search) || []).slice(-1)[0] || null;
 if (embedOrigin) {
@@ -97,5 +94,7 @@ if (parentDomain && external) {
   });
 }
 </script>
+
+</body>
 
 </html>
