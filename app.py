@@ -98,8 +98,8 @@ def remove_exif_rotation(img):
     return img
 
 def limit_image_size(img):
-    # Limit to 1500x1500 pixels, but maintain the existing aspect ratio
-    img.thumbnail((1500, 1500))
+    # Limit to 1000x1000 pixels, but maintain the existing aspect ratio
+    img.thumbnail((1000, 1000))
 
     return img
 
