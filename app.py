@@ -32,16 +32,19 @@ def watermark(im, position=(100, 100)):
     mark = Image.open('watermark.jpg')
     if im.mode != 'RGBA':
         im = im.convert('RGBA')
+
     # create a transparent layer the size of the image and draw the
     # watermark in that layer.
     layer = Image.new('RGBA', im.size, (0, 0, 0, 0))
-    # scale, but preserve the aspect ratio
+
+    # scale the watermark to the size of the image
     ratio = min(
         float(im.size[0]) / mark.size[0], float(im.size[1]) / mark.size[1])
     w = int(mark.size[0] * ratio * 0.3)
     h = int(mark.size[1] * ratio * 0.3)
     mark = mark.resize((w, h), Image.ANTIALIAS)
-    layer.paste(mark, (im.size[0] - w - 25, im.size[1] - h - 25))
+    layer.paste(mark, (im.size[0] - w - 10, im.size[1] - h - 10))
+
     # composite the watermark with the layer
     return Image.composite(layer, im, layer)
 
