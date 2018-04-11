@@ -204,10 +204,9 @@ def scale_rotate_translate(image, angle, center=None, new_center=None, scale=Non
 
 
 MUSTACHES = {
-    'mustache_test.png': {
-        'center': (1039, 802),
-        'mouth_starts_at': 18,
-        # Make the mustache 15% wider than the mouth
+    'mustache.png': {
+        'center': (526, 385),
+        'mouth_starts_at': 112,
         'mustache_width_ratio': 1.25,
     }
 }
