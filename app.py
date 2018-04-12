@@ -156,8 +156,14 @@ def rekognize(original_image_buf):
         hashlib.sha1(original_image_buf.getvalue()).digest()
     ).decode('utf8').rstrip('=')
 
+    cache_dir = os.path.join(os.getcwd(), 'cache')
+    if not os.path.exists(cache_dir):
+        os.mkdir(cache_dir)
+
+    cache_path = os.path.join(cache_dir, cache_key)
+
     try:
-        with open(cache_key, 'r') as f:
+        with open(cache_path, 'r') as f:
             print("Returning cached Rekognition data")
             return json.load(f)
     except IOError as e:
@@ -172,7 +178,7 @@ def rekognize(original_image_buf):
         }
     )
 
-    with open(cache_key, 'w') as f:
+    with open(cache_path, 'w') as f:
         print("Storing Rekognition data")
         json.dump(response, f)
 
