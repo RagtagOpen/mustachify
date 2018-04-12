@@ -13,38 +13,37 @@
           <img src="/static/images/spinner.gif">
         </div>
       </div>
+
+      <div id="upload-area">
+        <p>Select a photo from your computer to get&nbsp;started.</p>
+
+        {% with messages = get_flashed_messages() %} {% if messages %}
+        <ul class="flashes errors">
+
+          {% for message in messages %}
+          <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %} {% endwith %}
+
+        <form method="POST" action="{{ url_for('submit_form') }}" enctype="multipart/form-data" id="mustachify-form">
+          <input type="hidden" name="origin" value="{{ origin }}">
+
+          <input type="file" name="original" id="file-input" class="file-input">
+          <label for="file-input">Upload a photo</label>
+
+          <input type="submit" id="file-submit" class="invisible">
+
+        </form>
+        <br>
+
+        <p id="tips">Photos should be in .jpg or .png format. Stache'ing yourself works best on photos where you're looking at the camera&nbsp;<nobr>head-on</nobr>.</p>
+      </div>
     </div>
 
-    <div id="upload-area">
-      <p>Select a photo from your computer to get&nbsp;started.</p>
-
-      {% with messages = get_flashed_messages() %} {% if messages %}
-      <ul class="flashes errors">
-
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-      </ul>
-      {% endif %} {% endwith %}
-
-      <form method="POST" action="{{ url_for('submit_form') }}" enctype="multipart/form-data" id="mustachify-form">
-        <input type="hidden" name="origin" value="{{ origin }}">
-
-        <input type="file" name="original" id="file-input" class="file-input">
-        <label for="file-input">Upload a photo</label>
-
-        <input type="submit" id="file-submit" class="invisible">
-
-      </form>
-      <br>
-
-      <p id="tips">Photos should be in .jpg or .png format. Stache'ing yourself works best on photos where you're looking at the camera&nbsp;<nobr>head-on</nobr>.</p>
-    </div>
-  </div>
-
-  <p style="text-align: center">
-    <a href="https://ragtag.org/?utm_medium=web&amp;utm_source=mustachify&amp;utm_name=empowered-badge" target="_top"><img src="https://assets.ragtag.tech/empowered-by-ragtag.svg" alt="Empowered by Ragtag"></a>
-  </p>
+    <p style="text-align: center">
+      <a href="https://ragtag.org/?utm_medium=web&amp;utm_source=mustachify&amp;utm_name=empowered-badge" target="_top"><img src="https://assets.ragtag.tech/empowered-by-ragtag.svg" alt="Empowered by Ragtag"></a>
+    </p>
 
   <script>
   document.getElementById('file-input').addEventListener('change', function() {
