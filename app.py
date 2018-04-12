@@ -1,5 +1,4 @@
 import base64
-import boto3
 import errno
 import hashlib
 import io
@@ -9,9 +8,11 @@ import os
 import posixpath
 import random
 import shutil
-import uuid
 import urllib.parse
-from flask import Flask, flash, render_template, request, redirect, url_for
+import uuid
+
+import boto3
+from flask import Flask, flash, redirect, render_template, request, url_for
 from PIL import Image
 
 
@@ -26,7 +27,9 @@ app.config['ALLOWED_EXTENSIONS'] = set(['png', 'jpg', 'jpeg'])
 
 def allowed_file(filename):
     return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in app.config.get('ALLOWED_EXTENSIONS')
+           filename.rsplit('.', 1)[1].lower(
+           ) in app.config.get('ALLOWED_EXTENSIONS')
+
 
 def watermark(im, position=(100, 100)):
     mark = Image.open('watermark.jpg')
@@ -47,6 +50,7 @@ def watermark(im, position=(100, 100)):
 
     # composite the watermark with the layer
     return Image.composite(layer, im, layer)
+
 
 def remove_transparency(im, bg_color=(255, 255, 255)):
 
@@ -69,6 +73,7 @@ class NoFacesFoundException(Exception):
 
 # image rotation code from https://github.com/kylefox/python-image-orientation-patch/
 
+
 # The EXIF tag that holds orientation data.
 EXIF_ORIENTATION_TAG = 274
 
@@ -85,23 +90,26 @@ ORIENTATIONS = {
     8: ("Rotated 270 degrees", Image.ROTATE_90)
 }
 
+
 def remove_exif_rotation(img):
     try:
         orientation = img._getexif()[EXIF_ORIENTATION_TAG]
     except (TypeError, AttributeError, KeyError):
         return img
 
-    if orientation in [3,6,8]:
+    if orientation in [3, 6, 8]:
         degrees = ORIENTATIONS[orientation][1]
         img = img.transpose(degrees)
 
     return img
+
 
 def limit_image_size(img):
     # Limit to 1000x1000 pixels, but maintain the existing aspect ratio
     img.thumbnail((1000, 1000))
 
     return img
+
 
 def apply_mustache(s3_bucket, image_data):
     # Load the image into memory
@@ -175,7 +183,7 @@ def scale_rotate_translate(image, angle, center=None, new_center=None, scale=Non
     if center is None:
         return image.rotate(angle)
 
-    angle = -angle/180.0*math.pi
+    angle = -angle / 180.0 * math.pi
     nx, ny = x, y = center
     sx = sy = 1.0
 
@@ -187,12 +195,12 @@ def scale_rotate_translate(image, angle, center=None, new_center=None, scale=Non
 
     cosine = math.cos(angle)
     sine = math.sin(angle)
-    a = cosine/sx
-    b = sine/sx
-    c = x-nx*a-ny*b
-    d = -sine/sy
-    e = cosine/sy
-    f = y-nx*d-ny*e
+    a = cosine / sx
+    b = sine / sx
+    c = x - nx * a - ny * b
+    d = -sine / sy
+    e = cosine / sy
+    f = y - nx * d - ny * e
 
     return image.transform(
         image.size,
@@ -224,12 +232,14 @@ def mustachify(original_image_buf):
     for face in response['FaceDetails']:
         if face['Confidence'] < 0.9:
             # Only work on things we're really sure are faces
-            app.logger.info("Skipping face with confidence < 0.9: %s", face['Confidence'])
+            app.logger.info(
+                "Skipping face with confidence < 0.9: %s", face['Confidence'])
             continue
 
         if abs(face['Pose']['Yaw']) > 35:
             # Only work on faces that are looking at the camera
-            app.logger.info("Skipping face with yaw greater than 35: %s", face['Pose']['Yaw'])
+            app.logger.info(
+                "Skipping face with yaw greater than 35: %s", face['Pose']['Yaw'])
             continue
 
         at_least_one_face = True
@@ -256,7 +266,8 @@ def mustachify(original_image_buf):
             (mright_y - mleft_y) ** 2
         )
 
-        mustache_image_name, mustache_params = random.choice(list(MUSTACHES.items()))
+        mustache_image_name, mustache_params = random.choice(
+            list(MUSTACHES.items()))
 
         # If the mustache is smaller than the original image, make an image to
         # move the mustache around in because affine transform doesn't
@@ -272,10 +283,12 @@ def mustachify(original_image_buf):
             # to create the overaly.
             mustache_overlay = mustache_im
 
-        mustache_upper_lip_height = (mustache_im.size[1] - mustache_params['mouth_starts_at'])
+        mustache_upper_lip_height = (
+            mustache_im.size[1] - mustache_params['mouth_starts_at'])
 
         height_scale = desired_upper_lip_height / mustache_upper_lip_height
-        width_scale = (desired_mouth_width * mustache_params['mustache_width_ratio']) / mustache_im.size[0]
+        width_scale = (desired_mouth_width *
+                       mustache_params['mustache_width_ratio']) / mustache_im.size[0]
 
         alpha = math.degrees(
             math.atan2(
