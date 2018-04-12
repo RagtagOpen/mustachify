@@ -144,6 +144,7 @@ def apply_mustache(s3_bucket, image_data):
         ExtraArgs={
             'ContentType': 'image/jpeg',
             'ACL': 'public-read',
+            'ContentDisposition': 'attachment',
         }
     )
 
