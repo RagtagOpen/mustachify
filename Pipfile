@@ -9,7 +9,7 @@ name = "pypi"
 
 "boto3" = "*"
 requests = "*"
-pillow = "==6.2.0"
+pillow = "==8.1.1"
 flask = "*"
 python-dotenv = "*"
 gunicorn = "*"
